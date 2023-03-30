@@ -5,7 +5,7 @@ eelu-login is a command-line tool that allows users to log in to the EELU Moodle
 ## Installation For Users
 
 Check Releases On:
- 
+	  `https://github.com/Crypt00o/eelu-login/releases` 
 
 ## Installation and Building For Developers
 
