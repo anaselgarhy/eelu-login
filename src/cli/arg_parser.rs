@@ -79,7 +79,7 @@ impl Arguments {
     fn  banner(){
         println!(r"
 
-0xCrypt00o Moodle Login - Tool for Fastly Get Moodle Session and Login Through CLI
+0xCrypt00o Moodle Login - Tool for Getting Moodle Session Quickly and Login Through CLI
     
     Created By : Eslam Muhammad [0xCrypt00o]
     Github Repo : https://github.com/Crypt00o/eelu-login
