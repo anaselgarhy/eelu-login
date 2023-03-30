@@ -92,7 +92,7 @@ impl Arguments {
     
     fn usage(){
         println!(r"
-[+] Usage : eelu-login --user <username> --pass <password> --type <admin | sys-user | student >
+[+] Usage : eelu-login --user <username> --pass <password> --type <staff| sys-user | student >
 
 Args: 
 
