@@ -9,11 +9,6 @@ pub row:LoginRowData
 
 #[derive(serde::Deserialize)]
 pub struct LoginRowData{
-    sysID:String,
-    userID:String,
-    password:String,
-    currentIP:String,
-    username:String,
     pub LoginOK:String
 }
 
