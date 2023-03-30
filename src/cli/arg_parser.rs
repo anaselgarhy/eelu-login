@@ -1,5 +1,6 @@
 use std::env::{Args,args};
-use::std::io::{stdin,stdout,stderr,Write};
+use std::io::{stdin,stdout,stderr,Write};
+use std::process::exit;
 
 #[derive(Debug)]
 pub struct Arguments{
@@ -57,7 +58,7 @@ impl Arguments {
         }
         if self.usertype.is_none(){
             match Self::prompt("Usertype").to_lowercase().as_str() {
-                "0"|"admin"=>self.usertype=Some(String::from("admin")),
+                "3"|"staff"|"staff user"| "staff-user" =>self.usertype=Some(String::from("staff")),
                 "1"|"system-user"|"systemuser"|"system user"|"sys-user"|"sysuser"|"sys user"=>self.usertype=Some(String::from("system-user")),
                 "2"|"student"=>self.usertype=Some(String::from("student")),
                 _=>self.usertype=Some(2.to_string())
@@ -73,8 +74,42 @@ impl Arguments {
                         _=>return  false
         };
     }
+   
 
+    fn  banner(){
+        println!(r"
+
+0xCrypt00o Moodle Login - Tool for Fastly Get Moodle Session and Login Through CLI
+    
+    Created By : Eslam Muhammad [0xCrypt00o]
+    Github Repo : https://github.com/Crypt00o/eelu-login
+    Mail : 0xCrypt00o@protonmail.com
+    Support Me On :
+        Bitcoin Address : bc1qdp3f6u3puwkyu6ztxz7hzcurd7jnjyw6hzjcas
+
+                 ");
+   } 
+    
+    fn usage(){
+        println!(r"
+[+] Usage : eelu-login --user <username> --pass <password> --type <admin | sys-user | student >
+
+Args: 
+
+[-user | --user | --username | -username |  -u]   <username>  :  username to login with 
+[-pass | --pass | --password | -p]   <password>  :  password to login with
+[-type | --type | --usertype | -usertype | -t]  : <usertype> 
+
+usertype can be :
+    [ staff | 3 ] for staff privilege
+    [ sys-user | 1] for system user privilege
+    [ student | 2] for student privilege
+                 
+    ");
+
+    }
     pub fn parse_args()->Self{
+        Self::banner();
         let mut cli_args:Args=args();
         let mut index:Option<String>=cli_args.next();
         let mut parsed_arguments:Self=Self::new();
@@ -83,9 +118,10 @@ impl Arguments {
             index=cli_args.next();
             if index.is_some(){
                 match index.as_ref().unwrap().as_str() {
-                    "--user" | "--username" | "-user" | "-u" => parsed_arguments.username=cli_args.next(),
+                    "--user" | "-username" |"--username" | "-user" | "-u" => parsed_arguments.username=cli_args.next(),
                     "--password"|"-password"|"--pass"|"-pass"|"-p" => parsed_arguments.password=cli_args.next(),
                     "--usertype"|"-usertype"|"--type"|"-type"|"-t"=> parsed_arguments.usertype=cli_args.next(),
+                    "-h"|"-help"|"--help"=>{ Self::usage() ; exit(0)}
                     _=> println!("Invalid Argument : {}",index.unwrap())
                 }
             } 
