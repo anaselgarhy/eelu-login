@@ -11,8 +11,16 @@ Check Releases On:
 
 To install eelu-login, you'll need to have Rust and Cargo installed on your machine. Once you have those installed, you can run the following command:
 
+build:
+
+```rust
+cargo build --release
 ```
-cargo install eelu-login
+
+run :
+
+```rust
+cargo run 
 ```
 
 ## Usage
@@ -20,10 +28,10 @@ cargo install eelu-login
 To use eelu-login, run the following command:
 
 ```
-eelu-login --user <username> --pass <password> --type <admin | sys-user | student>
+eelu-login --user <username> --pass <password> --type <staff | sys-user | student>
 ```
 
-Replace `<username>` and `<password>` with your EELU Moodle login credentials, and `<admin | sys-user | student>` with your user type. 
+Replace `<username>` and `<password>` with your EELU Moodle login credentials, and `< staff | sys-user | student>` with your user type. 
 
 ## License
 
