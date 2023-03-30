@@ -4,7 +4,7 @@ use reqwest::{
 };
 
 pub fn get_client() -> Client {
-    match ClientBuilder::new().build() {
+    match ClientBuilder::new().danger_accept_invalid_certs(true).build() {
         Ok(client) => return client,
         Err(err) => panic!("[-] Error While Create client : {}", err),
     }
@@ -26,7 +26,7 @@ pub fn sis_eelu_request_headers(cookie: Option<&String>) -> HeaderMap {
     );
     headers.insert(
         REFERER,
-        HeaderValue::from_static("http://sis.eelu.edu.eg/static/PortalStudent.html"),
+        HeaderValue::from_static("https://sis.eelu.edu.eg/static/PortalStudent.html"),
     );
     match cookie {
         Some(value) => {

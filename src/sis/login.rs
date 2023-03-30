@@ -6,7 +6,7 @@ use super::types::{
 use reqwest::{header::HeaderMap, Response};
 
 pub async fn sis_login(username: &String, password: &String, usertype: UserType) -> Option<String> {
-    let login_url: &str = "http://sis.eelu.edu.eg/studentLogin";
+    let login_url: &str = "https://sis.eelu.edu.eg/studentLogin";
     let headers: HeaderMap = client::sis_eelu_request_headers(Some(&String::new()));
     let data: String = format!(
         "UserName={}&Password={}&userType={}",
@@ -57,7 +57,7 @@ pub async fn sis_login(username: &String, password: &String, usertype: UserType)
 }
 
 pub async fn get_moodle_session(cookie: String) -> Option<String> {
-    let url: &str = "http://sis.eelu.edu.eg/getJCI";
+    let url: &str = "https://sis.eelu.edu.eg/getJCI";
     let headers: HeaderMap = client::sis_eelu_request_headers(Some(&cookie));
     let data: &str = "param0=stuAdmission.stuAdmission&param1=moodleLogin&param2=2";
     let response: Response;
