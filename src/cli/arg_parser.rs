@@ -1,11 +1,12 @@
 use std::env::{args, Args};
 use std::io::{stderr, stdin, stdout, Write};
 use std::process::exit;
+use crate::sis::types::user_type::UserType;
 
 pub struct Arguments {
     pub username: Option<String>,
     pub password: Option<String>,
-    pub usertype: Option<String>,
+    pub user_type: Option<UserType>,
 }
 
 impl Arguments {
@@ -13,7 +14,7 @@ impl Arguments {
         return Self {
             username: None,
             password: None,
-            usertype: None,
+            user_type: None,
         };
     }
 
@@ -54,7 +55,7 @@ impl Arguments {
         if self.password.is_none() {
             self.password = Some(Self::prompt("Password"));
         }
-        if self.usertype.is_none() {
+        /*if self.usertype.is_none() {
             match Self::prompt("Usertype").to_lowercase().as_str() {
                 "3" | "staff" | "staff user" | "staff-user" => {
                     self.usertype = Some(String::from("staff"))
@@ -64,7 +65,7 @@ impl Arguments {
                 "2" | "student" => self.usertype = Some(String::from("student")),
                 _ => self.usertype = Some(2.to_string()),
             }
-        }
+        }*/
         return self;
     }
 
@@ -131,7 +132,9 @@ usertype can be :
                         parsed_arguments.password = cli_args.next()
                     }
                     "--usertype" | "-usertype" | "--type" | "-type" | "-t" => {
-                        parsed_arguments.usertype = cli_args.next()
+                        if let Some(user_type) = cli_args.next() {
+                            parsed_arguments.user_type = Some(UserType::from_string(&user_type));
+                        }
                     }
                     "-h" | "-help" | "--help" => {
                         Self::usage();
