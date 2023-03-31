@@ -4,7 +4,10 @@ use reqwest::{
 };
 
 pub fn get_client() -> Client {
-    match ClientBuilder::new().danger_accept_invalid_certs(true).build() {
+    match ClientBuilder::new()
+        .danger_accept_invalid_certs(true)
+        .build()
+    {
         Ok(client) => return client,
         Err(err) => panic!("[-] Error While Create client : {}", err),
     }
