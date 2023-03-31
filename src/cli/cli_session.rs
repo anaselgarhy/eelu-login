@@ -15,9 +15,11 @@ pub async fn login() {
                 &args.password.clone().unwrap(),
                 args.user_type.clone().unwrap(),
             )
-                .await;
+            .await;
             match moodle_session_url {
-                Some(_) => { break moodle_session_url; }
+                Some(_) => {
+                    break moodle_session_url;
+                }
                 _ => {
                     if i == 3 {
                         break None;
@@ -25,29 +27,29 @@ pub async fn login() {
                     i += 1;
                     args.user_type = None;
                 }
-        }
-    };
+            }
+        };
 
-    match moodle_session_url {
-        Some(url) => {
-            println!("[+] Moodle URL : {}", url);
-            return ();
-        }
-        None => {
-            println!("[-] Login Faild :(");
-            if Arguments::prompt_y_n("[yes/no] => Do You Want to Attemp Login Again ?") {
-                if Arguments::prompt_y_n(
-                    "[yes/no] => Do You Want to Login Useing Same User And Pass ?",
-                ) {
-                    continue;
-                } else {
-                    args = Arguments::new().read_needed_arguments();
-                    continue;
-                }
-            } else {
+        match moodle_session_url {
+            Some(url) => {
+                println!("[+] Moodle URL : {}", url);
                 return ();
+            }
+            None => {
+                println!("[-] Login Faild :(");
+                if Arguments::prompt_y_n("[yes/no] => Do You Want to Attemp Login Again ?") {
+                    if Arguments::prompt_y_n(
+                        "[yes/no] => Do You Want to Login Useing Same User And Pass ?",
+                    ) {
+                        continue;
+                    } else {
+                        args = Arguments::new().read_needed_arguments();
+                        continue;
+                    }
+                } else {
+                    return ();
+                }
             }
         }
     }
-}
 }
