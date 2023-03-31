@@ -55,17 +55,6 @@ impl Arguments {
         if self.password.is_none() {
             self.password = Some(Self::prompt("Password"));
         }
-        /*if self.usertype.is_none() {
-            match Self::prompt("Usertype").to_lowercase().as_str() {
-                "3" | "staff" | "staff user" | "staff-user" => {
-                    self.usertype = Some(String::from("staff"))
-                }
-                "1" | "system-user" | "systemuser" | "system user" | "sys-user" | "sysuser"
-                | "sys user" => self.usertype = Some(String::from("system-user")),
-                "2" | "student" => self.usertype = Some(String::from("student")),
-                _ => self.usertype = Some(2.to_string()),
-            }
-        }*/
         return self;
     }
 
