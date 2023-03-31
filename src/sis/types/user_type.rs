@@ -8,34 +8,34 @@ pub enum UserType {
 impl UserType {
     pub fn from(num: u8) -> Self {
         match num {
-            3 => return Self::Staff,
-            2 => return Self::Student,
-            1 => return Self::SystemUser,
-            _ => return Self::Student,
-        };
+            3 => Self::Staff,
+            2 => Self::Student,
+            1 => Self::SystemUser,
+            _ => Self::Student,
+        }
     }
     pub fn from_string(user_str: &String) -> Self {
         match user_str.as_str() {
-            "staff" => return Self::Staff,
-            "student" => return Self::Student,
-            "system-user" => return Self::SystemUser,
-            _ => return Self::Student,
+            "staff" => Self::Staff,
+            "student" => Self::Student,
+            "system-user" => Self::SystemUser,
+            _ => Self::Student,
         }
     }
 
     pub fn to_string(&self) -> &str {
         match self {
-            Self::Staff => return "staff",
-            Self::Student => return "student",
-            Self::SystemUser => return "system-user",
+            Self::Staff => "staff",
+            Self::Student => "student",
+            Self::SystemUser => "system-user",
         }
     }
 
     pub fn to_num(&self) -> u8 {
         match self {
-            Self::Staff => return 3,
-            Self::Student => return 2,
-            Self::SystemUser => return 1,
+            Self::Staff => 3,
+            Self::Student => 2,
+            Self::SystemUser => 1,
         }
     }
 }

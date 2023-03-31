@@ -11,11 +11,11 @@ pub struct Arguments {
 
 impl Arguments {
     pub fn new() -> Self {
-        return Self {
+        Self {
             username: None,
             password: None,
             user_type: None,
-        };
+        }
     }
 
     fn prompt(param_name: &str) -> String {
@@ -55,7 +55,7 @@ impl Arguments {
         if self.password.is_none() {
             self.password = Some(Self::prompt("Password"));
         }
-        return self;
+        self
     }
 
     pub fn prompt_y_n(msg: &str) -> bool {
@@ -63,10 +63,10 @@ impl Arguments {
             .to_lowercase()
             .trim_end_matches(char::is_whitespace)
         {
-            "y" | "yes" => return true,
-            "n" | "no" => return false,
-            _ => return false,
-        };
+            "y" | "yes" => true,
+            "n" | "no" => false,
+            _ => false,
+        }
     }
 
     fn banner() {

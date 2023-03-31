@@ -33,7 +33,7 @@ pub async fn login() {
         match moodle_session_url {
             Some(url) => {
                 println!("[+] Moodle URL : {}", url);
-                return ();
+                return;
             }
             None => {
                 println!("[-] Login Faild :(");
@@ -47,7 +47,7 @@ pub async fn login() {
                         continue;
                     }
                 } else {
-                    return ();
+                    return;
                 }
             }
         }
