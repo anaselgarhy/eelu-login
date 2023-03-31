@@ -3,10 +3,11 @@ use super::arg_parser::Arguments;
 
 pub async fn login() {
     let mut args: Arguments = Arguments::parse_args();
+    let try_guess_user_type = args.user_type.is_none();
     loop {
         let mut i = 1;
         let moodle_session_url = loop {
-            if args.user_type.is_none() {
+            if args.user_type.is_none() && try_guess_user_type {
                 args.user_type = Some(UserType::from(i));
             }
             // Try Login
@@ -21,7 +22,7 @@ pub async fn login() {
                     break moodle_session_url;
                 }
                 _ => {
-                    if i == 3 {
+                    if i == 3 || !try_guess_user_type {
                         break None;
                     }
                     i += 1;
