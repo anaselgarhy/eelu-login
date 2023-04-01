@@ -40,3 +40,7 @@ This package is licensed under the MIT License and Apache License 2.0.
 ## Support
 
 If you have any questions or need help using eelu-login, you can contact the creator, Eslam Muhammad [0xCrypt00o], at 0xCrypt00o@protonmail.com. You can also support the creator by sending Bitcoin to the following address: bc1qdp3f6u3puwkyu6ztxz7hzcurd7jnjyw6hzjcas. 
+
+
+## Contributors 🦀❤️
+Anas Elgarhy : https://github.com/anaselgarhy/ 
