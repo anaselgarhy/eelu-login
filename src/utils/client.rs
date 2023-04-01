@@ -6,6 +6,7 @@ use reqwest::{
 pub fn get_client() -> Client {
     match ClientBuilder::new()
         .danger_accept_invalid_certs(true)
+        .use_rustls_tls()
         .build()
     {
         Ok(client) => return client,
