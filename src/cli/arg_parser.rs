@@ -18,7 +18,7 @@ impl Arguments {
         }
     }
 
-    fn prompt(param_name: &str,empty_input_err:bool) -> String {
+    fn prompt(param_name: &str, empty_input_err: bool) -> String {
         loop {
             let mut prompt_buf: String = String::new();
             print!("Enter {} : ", param_name);
@@ -26,14 +26,13 @@ impl Arguments {
 
             match stdin().read_line(&mut prompt_buf) {
                 Ok(_) => {
-
-                        prompt_buf.pop();
+                    prompt_buf.pop();
                     if prompt_buf.is_empty() && empty_input_err {
                         eprintln!("[-] Empty {} !", param_name);
                         stderr().flush().unwrap();
                         continue;
                     } else {
-                       return prompt_buf;
+                        return prompt_buf;
                     }
                 }
 
@@ -51,16 +50,16 @@ impl Arguments {
 
     pub fn read_needed_arguments(mut self) -> Self {
         if self.username.is_none() {
-            self.username = Some(Self::prompt("Username",true));
+            self.username = Some(Self::prompt("Username", true));
         }
         if self.password.is_none() {
-            self.password = Some(Self::prompt("Password",true));
+            self.password = Some(Self::prompt("Password", true));
         }
         self
     }
 
     pub fn prompt_y_n(msg: &str) -> bool {
-        match Self::prompt(msg,false)
+        match Self::prompt(msg, false)
             .to_lowercase()
             .trim_end_matches(char::is_whitespace)
         {
@@ -70,10 +69,10 @@ impl Arguments {
         }
     }
 
-    pub fn prompt_enter(msg:&str){
+    pub fn prompt_enter(msg: &str) {
         print!("{} ", msg);
         stdout().flush().unwrap();
-        stdin().read_line(&mut String::new()); 
+        stdin().read_line(&mut String::new());
     }
 
     fn banner() {

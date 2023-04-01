@@ -18,7 +18,9 @@ pub async fn sis_login(username: &String, password: &String, usertype: UserType)
 
     println!(
         "Trying Login With => Username : {} , Password : {}  , As {}",
-        username, password,usertype.to_string()
+        username,
+        password,
+        usertype.to_string()
     );
 
     match client::get_client()
