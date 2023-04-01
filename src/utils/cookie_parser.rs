@@ -4,6 +4,7 @@ fn get_cookie(res_cookie_header: &str) -> &str {
     let res_cookie_header_bytes: &[u8] = res_cookie_header.as_bytes();
     for (index, value) in res_cookie_header_bytes.iter().enumerate() {
         if *value as char == ';' {
+            // TODO: Remove the identical block
             if index + 1 >= res_cookie_header_bytes.len() {
                 return &res_cookie_header[..index + 1];
             } else if res_cookie_header_bytes[index + 1] as char == ' ' {
@@ -25,5 +26,5 @@ pub fn parse_cookies(headers: &HeaderMap) -> String {
             }
         }
     }
-    return cookie;
+    cookie
 }

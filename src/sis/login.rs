@@ -17,8 +17,10 @@ pub async fn sis_login(username: &String, password: &String, usertype: UserType)
     let response: Response;
 
     println!(
-        "Trying Login With => Username : {} , Password : {}",
-        username, password
+        "Trying Login With => Username : {} , Password : {}  , As {}",
+        username,
+        password,
+        usertype.to_string()
     );
 
     match client::get_client()
@@ -80,7 +82,7 @@ pub async fn get_moodle_session(cookie: String) -> Option<String> {
         Ok(result) => return Some(result.loginurl),
         Err(err) => {
             println!("[-] Error While Parse Login Result : {}", err);
-            return None;
+            None
         }
     }
 }
@@ -99,6 +101,6 @@ pub async fn moodle_login(
             }
         }
     } else {
-        return None;
+        None
     }
 }

@@ -1,3 +1,4 @@
+use crate::sis::types::user_type::UserType;
 use std::env::{args, Args};
 use std::io::{stderr, stdin, stdout, Write};
 use std::process::exit;
@@ -5,19 +6,19 @@ use std::process::exit;
 pub struct Arguments {
     pub username: Option<String>,
     pub password: Option<String>,
-    pub usertype: Option<String>,
+    pub user_type: Option<UserType>,
 }
 
 impl Arguments {
     pub fn new() -> Self {
-        return Self {
+        Self {
             username: None,
             password: None,
-            usertype: None,
-        };
+            user_type: None,
+        }
     }
 
-    fn prompt(param_name: &str) -> String {
+    fn prompt(param_name: &str, empty_input_err: bool) -> String {
         loop {
             let mut prompt_buf: String = String::new();
             print!("Enter {} : ", param_name);
@@ -26,12 +27,12 @@ impl Arguments {
             match stdin().read_line(&mut prompt_buf) {
                 Ok(_) => {
                     prompt_buf.pop();
-                    if !prompt_buf.is_empty() {
-                        return prompt_buf;
-                    } else {
+                    if prompt_buf.is_empty() && empty_input_err {
                         eprintln!("[-] Empty {} !", param_name);
                         stderr().flush().unwrap();
                         continue;
+                    } else {
+                        return prompt_buf;
                     }
                 }
 
@@ -49,34 +50,29 @@ impl Arguments {
 
     pub fn read_needed_arguments(mut self) -> Self {
         if self.username.is_none() {
-            self.username = Some(Self::prompt("Username"));
+            self.username = Some(Self::prompt("Username", true));
         }
         if self.password.is_none() {
-            self.password = Some(Self::prompt("Password"));
+            self.password = Some(Self::prompt("Password", true));
         }
-        if self.usertype.is_none() {
-            match Self::prompt("Usertype").to_lowercase().as_str() {
-                "3" | "staff" | "staff user" | "staff-user" => {
-                    self.usertype = Some(String::from("staff"))
-                }
-                "1" | "system-user" | "systemuser" | "system user" | "sys-user" | "sysuser"
-                | "sys user" => self.usertype = Some(String::from("system-user")),
-                "2" | "student" => self.usertype = Some(String::from("student")),
-                _ => self.usertype = Some(2.to_string()),
-            }
-        }
-        return self;
+        self
     }
 
     pub fn prompt_y_n(msg: &str) -> bool {
-        match Self::prompt(msg)
+        match Self::prompt(msg, false)
             .to_lowercase()
             .trim_end_matches(char::is_whitespace)
         {
-            "y" | "yes" => return true,
-            "n" | "no" => return false,
-            _ => return false,
-        };
+            "y" | "yes" => true,
+            "n" | "no" => false,
+            _ => true,
+        }
+    }
+
+    pub fn prompt_enter(msg: &str) {
+        print!("{} ", msg);
+        stdout().flush().unwrap();
+        stdin().read_line(&mut String::new());
     }
 
     fn banner() {
@@ -131,7 +127,9 @@ usertype can be :
                         parsed_arguments.password = cli_args.next()
                     }
                     "--usertype" | "-usertype" | "--type" | "-type" | "-t" => {
-                        parsed_arguments.usertype = cli_args.next()
+                        if let Some(user_type) = cli_args.next() {
+                            parsed_arguments.user_type = Some(UserType::from_string(&user_type));
+                        }
                     }
                     "-h" | "-help" | "--help" => {
                         Self::usage();
