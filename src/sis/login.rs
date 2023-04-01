@@ -17,8 +17,8 @@ pub async fn sis_login(username: &String, password: &String, usertype: UserType)
     let response: Response;
 
     println!(
-        "Trying Login With => Username : {} , Password : {}",
-        username, password
+        "Trying Login With => Username : {} , Password : {}  , As {}",
+        username, password,usertype.to_string()
     );
 
     match client::get_client()
