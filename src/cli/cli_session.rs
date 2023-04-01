@@ -3,17 +3,38 @@ use super::arg_parser::Arguments;
 
 pub async fn login() {
     let mut args: Arguments = Arguments::parse_args();
+    let try_guess_user_type = args.user_type.is_none();
     loop {
-        let moodle_session_url: Option<String> = moodle_login(
-            &args.username.clone().unwrap(),
-            &args.password.clone().unwrap(),
-            UserType::from_string(&args.usertype.clone().unwrap()),
-        )
-        .await;
+        let mut i = 1;
+        let moodle_session_url = loop {
+            if args.user_type.is_none() && try_guess_user_type {
+                args.user_type = Some(UserType::from(i));
+            }
+            // Try Login
+            let moodle_session_url: Option<String> = moodle_login(
+                &args.username.clone().unwrap(),
+                &args.password.clone().unwrap(),
+                args.user_type.clone().unwrap(),
+            )
+            .await;
+            match moodle_session_url {
+                Some(_) => {
+                    break moodle_session_url;
+                }
+                _ => {
+                    if i == 3 || !try_guess_user_type {
+                        break None;
+                    }
+                    i += 1;
+                    args.user_type = None;
+                }
+            }
+        };
+
         match moodle_session_url {
             Some(url) => {
                 println!("[+] Moodle URL : {}", url);
-                return ();
+                return;
             }
             None => {
                 println!("[-] Login Faild :(");
@@ -27,7 +48,7 @@ pub async fn login() {
                         continue;
                     }
                 } else {
-                    return ();
+                    return;
                 }
             }
         }

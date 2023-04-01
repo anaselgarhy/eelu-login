@@ -80,7 +80,7 @@ pub async fn get_moodle_session(cookie: String) -> Option<String> {
         Ok(result) => return Some(result.loginurl),
         Err(err) => {
             println!("[-] Error While Parse Login Result : {}", err);
-            return None;
+            None
         }
     }
 }
@@ -99,6 +99,6 @@ pub async fn moodle_login(
             }
         }
     } else {
-        return None;
+        None
     }
 }

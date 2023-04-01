@@ -39,5 +39,5 @@ pub fn sis_eelu_request_headers(cookie: Option<&String>) -> HeaderMap {
         }
         None => None,
     };
-    return headers;
+    headers
 }

@@ -1,3 +1,4 @@
+use crate::sis::types::user_type::UserType;
 use std::env::{args, Args};
 use std::io::{stderr, stdin, stdout, Write};
 use std::process::exit;
@@ -5,16 +6,16 @@ use std::process::exit;
 pub struct Arguments {
     pub username: Option<String>,
     pub password: Option<String>,
-    pub usertype: Option<String>,
+    pub user_type: Option<UserType>,
 }
 
 impl Arguments {
     pub fn new() -> Self {
-        return Self {
+        Self {
             username: None,
             password: None,
-            usertype: None,
-        };
+            user_type: None,
+        }
     }
 
     fn prompt(param_name: &str) -> String {
@@ -54,18 +55,7 @@ impl Arguments {
         if self.password.is_none() {
             self.password = Some(Self::prompt("Password"));
         }
-        if self.usertype.is_none() {
-            match Self::prompt("Usertype").to_lowercase().as_str() {
-                "3" | "staff" | "staff user" | "staff-user" => {
-                    self.usertype = Some(String::from("staff"))
-                }
-                "1" | "system-user" | "systemuser" | "system user" | "sys-user" | "sysuser"
-                | "sys user" => self.usertype = Some(String::from("system-user")),
-                "2" | "student" => self.usertype = Some(String::from("student")),
-                _ => self.usertype = Some(2.to_string()),
-            }
-        }
-        return self;
+        self
     }
 
     pub fn prompt_y_n(msg: &str) -> bool {
@@ -73,10 +63,10 @@ impl Arguments {
             .to_lowercase()
             .trim_end_matches(char::is_whitespace)
         {
-            "y" | "yes" => return true,
-            "n" | "no" => return false,
-            _ => return false,
-        };
+            "y" | "yes" => true,
+            "n" | "no" => false,
+            _ => false,
+        }
     }
 
     fn banner() {
@@ -131,7 +121,9 @@ usertype can be :
                         parsed_arguments.password = cli_args.next()
                     }
                     "--usertype" | "-usertype" | "--type" | "-type" | "-t" => {
-                        parsed_arguments.usertype = cli_args.next()
+                        if let Some(user_type) = cli_args.next() {
+                            parsed_arguments.user_type = Some(UserType::from_string(&user_type));
+                        }
                     }
                     "-h" | "-help" | "--help" => {
                         Self::usage();
