@@ -1,4 +1,25 @@
-use reqwest::header::HeaderMap;
+use reqwest::{
+    header::{HeaderMap, HeaderName, HeaderValue, CONTENT_TYPE, COOKIE, REFERER, USER_AGENT},
+    Client, ClientBuilder,
+};
+use crate::SisError;
+
+#[inline(always)]
+pub(crate) async fn send_request(url: &str, body: String, headers: HeaderMap) -> crate::Result<reqwest::Response> {
+    match ClientBuilder::new()
+        .danger_accept_invalid_certs(true)
+        .use_rustls_tls()
+        .build()
+    {
+        Ok(client) => Ok(
+            match client.post(url).headers(headers).body(body).send().await {
+                Ok(res) => res,
+                Err(err) => return Err(SisError::SendRequestError(err)),
+            }
+        ),
+        Err(err) =>  Err(SisError::CreateClientError(err)),
+    }
+}
 
 fn get_cookie(res_cookie_header: &str) -> &str {
     let res_cookie_header_bytes: &[u8] = res_cookie_header.as_bytes();

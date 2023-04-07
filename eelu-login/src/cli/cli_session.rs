@@ -1,50 +1,41 @@
-use super::super::sis::{login::moodle_login, types::user_type::UserType};
-use super::arg_parser::Arguments;
+use sis_login::sis::types::user_type::UserType;
+use crate::cli::arg_parser::Arguments;
 
-pub async fn login() {
+pub async fn login(sis: &mut sis_login::Sis<'_>) {
     let mut args: Arguments = Arguments::parse_args();
     let try_guess_user_type = args.user_type.is_none();
     loop {
         // add on order &slice[student , staff , system-user ] because most users of this tool will
         // be students so we start with them
-        let usertypes: &[u8] = &[2, 3, 1];
-        let mut i = 0;
-        let moodle_session_url = loop {
-            if args.user_type.is_none() && try_guess_user_type {
-                args.user_type = Some(UserType::from(usertypes[i]));
+        for user_type_num in [2, 3, 1] {
+            if try_guess_user_type {
+                args.user_type = Some(UserType::from(user_type_num));
             }
             // Try Login
-            let moodle_session_url: Option<String> = moodle_login(
-                &args.username.clone().unwrap(),
-                &args.password.clone().unwrap(),
-                args.user_type.clone().unwrap(),
-            )
-            .await;
-            match moodle_session_url {
-                Some(_) => {
-                    break moodle_session_url;
+            match sis.login(&args.username.clone().unwrap(),
+                            &args.password.clone().unwrap(),
+                            args.user_type.clone().unwrap()).await {
+                Ok(_) => {
+                    break;
                 }
                 _ => {
                     println!("[-] Login Faild :(");
-                    if i == 2 || !try_guess_user_type {
-                        break None;
+                    if !try_guess_user_type {
+                        break;
                     }
-
-                    i += 1;
-                    args.user_type = None;
                 }
             }
         };
 
-        match moodle_session_url {
-            Some(url) => {
+        match sis.get_moodle_session().await {
+            Ok(url) => {
                 println!("[+] Moodle URL : {}", url);
                 Arguments::prompt_enter(
                     "\n\nPlease send blessings upon Prophet Muhammad Then Press Enter To Exit\n\n",
                 );
                 return;
             }
-            None => {
+            _ => {
                 if Arguments::prompt_y_n("[yes/no] => Do You Want to Attemp Login Again ?") {
                     if Arguments::prompt_y_n(
                         "[yes/no] => Do You Want to Login Useing Same User And Pass ?",

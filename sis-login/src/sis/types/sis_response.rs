@@ -1,18 +1,21 @@
 #[derive(serde::Deserialize)]
+#[cfg_attr(feature = "debug", derive(Debug))]
 pub struct LoginResult {
     pub rows: Vec<LoginRow>,
 }
 #[derive(serde::Deserialize)]
+#[cfg_attr(feature = "debug", derive(Debug))]
 pub struct LoginRow {
     pub row: LoginRowData,
 }
 
 #[derive(serde::Deserialize)]
+#[cfg_attr(feature = "debug", derive(Debug))]
 pub struct LoginRowData {
-    pub LoginOK: String,
+    pub login_ok: String,
 }
 
 #[derive(serde::Deserialize)]
 pub struct MoodleLoginResult {
-    pub loginurl: String,
+    pub login_url: String,
 }
