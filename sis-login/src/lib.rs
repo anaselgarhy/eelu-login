@@ -37,6 +37,32 @@ pub struct Sis<'a> {
 
 impl<'a> Sis<'a> {
     /// Create a new Sis instance
+    ///
+    /// # Arguments
+    /// * `login_url` - The login url of the sis system (It varies by university, for example in EELU it's https://sis.eelu.edu.eg/studentLogin)
+    /// * `get_moodle_session_url` - The url to get the moodle session (It varies by university, for example in EELU it's https://sis.eelu.edu.eg/getJCI)
+    /// * `headers_builder` - The headers builder to use (In most cases you can use the default one or you can create your own if you want more control)
+    ///
+    /// # Example
+    /// ```
+    /// # use sis_login::Sis;
+    /// # use sis_login::headers_builder::DefaultHeadersBuilder;
+    /// # use sis_login::sis::types::user_type::UserType;
+    ///
+    /// #[tokio::main]
+    /// async fn main() {
+    ///    let headers_builder = DefaultHeadersBuilder::new(
+    ///       "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0".to_string(),
+    ///      "https://sis.eelu.edu.eg/static/PortalStudent.html".to_string(),
+    ///   );
+    ///  let mut sis = Sis::new(
+    ///     "https://sis.eelu.edu.eg/studentLogin",
+    ///    "https://sis.eelu.edu.eg/getJCI",
+    ///     &headers_builder,
+    ///  );
+    ///
+    ///  // Use the sis instance here...
+    /// }
     pub fn new(
         login_url: &str,
         get_moodle_session_url: &str,
@@ -49,6 +75,46 @@ impl<'a> Sis<'a> {
             headers_builder,
         }
     }
+
+    /// Login to sis
+    /// # Arguments
+    /// * `username` - The username of the user
+    /// * `password` - The password of the user
+    /// * `usertype` - The type of the user (Student or Staff or System user)
+    ///
+    /// # Example
+    /// ```
+    /// # use sis_login::Sis;
+    /// # use sis_login::sis::types::user_type::UserType;
+    ///
+    /// #[tokio::main]
+    /// async fn main() {
+    ///    let username = std::env::var("SIS_USERNAME").unwrap();
+    ///    let password = std::env::var("SIS_PASSWORD").unwrap();
+    ///
+    ///    // Crate Sis instance
+    ///    let headers_builder = sis_login::headers_builder::DefaultHeadersBuilder::new(
+    ///       "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0".to_string(),
+    ///      "https://sis.eelu.edu.eg/static/PortalStudent.html".to_string()
+    ///   );
+    ///
+    ///    let login_url: &str = "https://sis.eelu.edu.eg/studentLogin";
+    ///    let get_moodle_session_url: &str = "https://sis.eelu.edu.eg/getJCI";
+    ///    let mut sis = Sis::new(login_url, get_moodle_session_url, &headers_builder);
+    ///
+    ///   // Login to sis
+    ///    match sis.login(&username, &password, UserType::Student).await {
+    ///         Ok(_) => println!("Login Success"),
+    ///         Err(err) => println!("Login Failed: {}", err),
+    ///     }
+    /// }
+    ///```
+    ///
+    /// # Errors
+    /// * `SisError::SendRequestError` - If there is an error while sending the request (e.g. network error)
+    /// * `SisError::CreateClientError` - If there is an error while creating the client (e.g. invalid url)
+    /// * `SisError::AuthError` - If the provided username or password is incorrect
+    /// * `SisError::ParseLoginResultError` - If there is an error while parsing the login result
     pub async fn login(
         &mut self,
         username: &String,
@@ -98,13 +164,53 @@ impl<'a> Sis<'a> {
                 info!("[+] Login Success");
                 info!("[+] Getteing Session Moodle URL ...");
             }
-            self.cookies = utils::parse_cookies(&res_headers);
+            self.cookies = utils::parse_cookies(res_headers);
             Ok(())
         } else {
             Err(SisError::AuthError)
         }
     }
 
+    /// Get Moodle Session URL
+    ///
+    /// # Example
+    /// ```
+    /// # use sis_login::Sis;
+    /// # use sis_login::sis::types::user_type::UserType;
+    ///
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let username = std::env::var("SIS_USERNAME").unwrap();
+    ///     let password = std::env::var("SIS_PASSWORD").unwrap();
+    ///
+    ///     // Crate Sis instance
+    ///     let headers_builder = sis_login::headers_builder::DefaultHeadersBuilder::new(
+    ///         "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0".to_string(),
+    ///         "https://sis.eelu.edu.eg/static/PortalStudent.html".to_string()
+    ///     );
+    ///
+    ///     let login_url: &str = "https://sis.eelu.edu.eg/studentLogin";
+    ///     let get_moodle_session_url: &str = "https://sis.eelu.edu.eg/getJCI";
+    ///     let mut sis = Sis::new(login_url, get_moodle_session_url, &headers_builder);
+    ///
+    ///     // Login to sis
+    ///     match sis.login(&username, &password, UserType::Student).await {
+    ///         Ok(_) => println!("Login Success"),
+    ///         Err(err) => println!("Login Failed: {}", err),
+    ///     }
+    ///
+    ///     // Get Moodle Session URL
+    ///     match sis.get_moodle_session().await {
+    ///         Ok(url) => println!("Moodle Session URL: {}", url),
+    ///         Err(err) => println!("Error While Get Moodle Session URL: {}", err),
+    ///     }
+    /// }
+    /// ```
+    ///
+    /// # Errors
+    /// * `SisError::SendRequestError` - If there is an error while sending the request (e.g. network error)
+    /// * `SisError::CreateClientError` - If there is an error while creating the client (e.g. invalid url)
+    /// * `SisError::ParseLoginResultError` - If there is an error while parsing the login result (e.g. invalid response)
     pub async fn get_moodle_session(&self) -> Result<String> {
         // let url: &str = "https://sis.eelu.edu.eg/getJCI";
 
