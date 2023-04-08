@@ -8,11 +8,15 @@ use crate::sis::utils;
 use log::{debug, error, info};
 use std::future::{IntoFuture, Ready};
 
+/// The error type for the Sis struct
 pub enum SisError {
+    /// There was an error while sending the request to the server (It can be a network error or a server error)
     SendRequestError(reqwest::Error),
+    /// There was an error creating the client that will be used to send the requests
     CreateClientError(reqwest::Error),
     /// The provided username or password is incorrect
     AuthError,
+    /// There was an error while parsing the response from the server (Unexpected response)
     ParseLoginResultError,
 }
 
@@ -28,6 +32,7 @@ impl IntoFuture for SisError {
 /// A Result type alias for SisError
 pub type Result<T> = std::result::Result<T, SisError>;
 
+/// This struct is used to login to the sis system and get the moodle session.
 pub struct Sis<'a> {
     login_url: String,
     get_moodle_session_url: String,
