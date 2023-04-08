@@ -1,5 +1,6 @@
 /// The type of user of the sis system
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialEq)]
+// #[cfg_attr(any(feature = "debug", test), derive(Debug))]
 pub enum UserType {
     /// A system user
     SystemUser,
