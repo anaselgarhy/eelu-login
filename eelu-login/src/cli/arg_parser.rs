@@ -1,4 +1,4 @@
-use crate::sis::types::user_type::UserType;
+use sis_login::sis::types::user_type::UserType;
 use std::env::{args, Args};
 use std::io::{stderr, stdin, stdout, Write};
 use std::process::exit;

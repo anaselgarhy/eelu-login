@@ -1,18 +1,5 @@
-[package]
-name = "eelu-login"
-version = "0.1.2"
-edition = "2021"
-authors = ["Eslam Muhammad <0xCrypt00o@protonmail.com>"]
-description ="EELU Moodle Login University moodle-login through sis"
-repository = "https://github.com/Crypt00o/eelu-login"
-license = "MIT OR Apache-2.0"
-keywords = ["eelu", "EELU","eelu moodle","moodle"]
-homepage ="https://github.com/Crypt00o/eelu-login/README.md"
-documentation = "https://github.com/Crypt00o/eelu-login/README.md"
-readme = "README.md"
-
-[dependencies]
-tokio={ version="1.27.0",default-features=false,features=["full"] }
-serde={ version="1.0.159",default-features=false,features=["serde_derive"] }
-reqwest = { version = "0.11.16", default-features=false,features = ["json","rustls-tls"] }
-rustls = { version = "0.21.0", default-features = false}
+[workspace]
+members = [
+    "eelu-login",
+    "sis-login"
+]
