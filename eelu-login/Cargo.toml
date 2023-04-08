@@ -3,11 +3,11 @@ name = "eelu-login"
 version = "0.1.2"
 edition = "2021"
 authors = ["Eslam Muhammad , github_username: Crypt00o ,  email: 0xCrypt00o@protonmail.com"]
-description ="EELU Moodle Login University moodle-login through sis"
+description = "EELU Moodle Login University moodle-login through sis"
 repository = "https://github.com/Crypt00o/eelu-login"
 license = "MIT OR Apache-2.0"
-keywords = ["eelu", "EELU","eelu moodle","moodle"]
-homepage ="https://github.com/Crypt00o/eelu-login/README.md"
+keywords = ["eelu", "EELU", "eelu moodle", "moodle"]
+homepage = "https://github.com/Crypt00o/eelu-login/README.md"
 documentation = "https://github.com/Crypt00o/eelu-login/README.md"
 readme = "README.md"
 
