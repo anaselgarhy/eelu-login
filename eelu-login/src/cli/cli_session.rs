@@ -1,5 +1,5 @@
-use sis_login::sis::types::user_type::UserType;
 use crate::cli::arg_parser::Arguments;
+use sis_login::sis::types::user_type::UserType;
 
 pub async fn login(sis: &mut sis_login::Sis<'_>) {
     let mut args: Arguments = Arguments::parse_args();
@@ -12,9 +12,14 @@ pub async fn login(sis: &mut sis_login::Sis<'_>) {
                 args.user_type = Some(UserType::from(user_type_num));
             }
             // Try Login
-            match sis.login(&args.username.clone().unwrap(),
-                            &args.password.clone().unwrap(),
-                            args.user_type.clone().unwrap()).await {
+            match sis
+                .login(
+                    &args.username.clone().unwrap(),
+                    &args.password.clone().unwrap(),
+                    args.user_type.clone().unwrap(),
+                )
+                .await
+            {
                 Ok(_) => {
                     break;
                 }
@@ -25,7 +30,7 @@ pub async fn login(sis: &mut sis_login::Sis<'_>) {
                     }
                 }
             }
-        };
+        }
 
         match sis.get_moodle_session().await {
             Ok(url) => {

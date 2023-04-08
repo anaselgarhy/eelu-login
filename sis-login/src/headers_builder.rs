@@ -1,4 +1,6 @@
-use reqwest::header::{CONTENT_TYPE, COOKIE, HeaderMap, HeaderName, HeaderValue, REFERER, USER_AGENT};
+use reqwest::header::{
+    HeaderMap, HeaderName, HeaderValue, CONTENT_TYPE, COOKIE, REFERER, USER_AGENT,
+};
 
 pub trait HeadersBuilder {
     fn build(&self) -> HeaderMap;

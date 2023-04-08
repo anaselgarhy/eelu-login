@@ -1,11 +1,15 @@
+use crate::SisError;
 use reqwest::{
     header::{HeaderMap, HeaderName, HeaderValue, CONTENT_TYPE, COOKIE, REFERER, USER_AGENT},
     Client, ClientBuilder,
 };
-use crate::SisError;
 
 #[inline(always)]
-pub(crate) async fn send_request(url: &str, body: String, headers: HeaderMap) -> crate::Result<reqwest::Response> {
+pub(crate) async fn send_request(
+    url: &str,
+    body: String,
+    headers: HeaderMap,
+) -> crate::Result<reqwest::Response> {
     match ClientBuilder::new()
         .danger_accept_invalid_certs(true)
         .use_rustls_tls()
@@ -15,9 +19,9 @@ pub(crate) async fn send_request(url: &str, body: String, headers: HeaderMap) ->
             match client.post(url).headers(headers).body(body).send().await {
                 Ok(res) => res,
                 Err(err) => return Err(SisError::SendRequestError(err)),
-            }
+            },
         ),
-        Err(err) =>  Err(SisError::CreateClientError(err)),
+        Err(err) => Err(SisError::CreateClientError(err)),
     }
 }
 
