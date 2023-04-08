@@ -2,16 +2,34 @@
 name = "sis-login"
 version = "0.1.0"
 edition = "2021"
+authors = ["Anas Elgarhy <anas.elgarhy.dev@gmail.com>", "Eslam Muhammad <0xCrypt00o@protonmail.com>"]
+description = "A simple crate to login to SIS system and get the module session link without the need to open the browser"
+repository = "https://github.com/anaselgarhy/eelu-login"
+license = "MIT"
+readme = "README.md"
+keywords = ["sis", "module", "eelu-sis", "eelu-sis-login", "eelu-sis-module"]
+categories = ["api-bindings", "authentication", "web-programming"]
+documentation = "https://docs.rs/sis-login"
+homepage = "https://github.com/anaselgarhy/eelu-login/tree/main/sis-login"
+include = [
+    "src/*",
+    "Cargo.toml",
+    "README.md",
+    "LICENSE",
+]
+exclude = [
+    "tests/*",
+    "examples/*",
+]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tokio={ version="1.27.0", default-features=false, features=["full"] }
-serde={ version="1.0.159", default-features=false, features=["serde_derive"] }
-reqwest = { version = "0.11.16", default-features=false , features = ["json","rustls-tls"] }
+tokio = { version = "1.27.0", default-features = false, features = ["full"] }
+serde = { version = "1.0.159", default-features = false, features = ["serde_derive"] }
+reqwest = { version = "0.11.16", default-features = false, features = ["json", "rustls-tls"] }
 rustls = { version = "0.21.0", default-features = false }
 log = { version = "0.4.17", optional = true }
-env_logger = { version = "0.10.0", optional = true }
 
 [features]
-debug = ["log", "env_logger"]
+debug = ["log"]
