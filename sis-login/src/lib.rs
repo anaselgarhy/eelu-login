@@ -6,7 +6,10 @@ use std::future::{IntoFuture, Ready};
 use std::process::Output;
 use reqwest::{header::HeaderMap, Response};
 #[cfg(feature = "debug")]
-use log::{debug, info, error};
+extern crate env_logger;
+#[cfg(feature = "debug")]
+#[macro_use]
+extern crate log;
 use crate::sis::types::sis_response::{LoginResult, MoodleLoginResult};
 use crate::sis::types::user_type::UserType;
 use crate::sis::utils;
@@ -58,7 +61,7 @@ impl<'a> Sis<'a> {
         );
 
         #[cfg(feature = "debug")]
-        debug!(
+        println!(
         "Trying Login With => Username : {} , Password : {}  , As {}",
         username,
         password,
@@ -70,19 +73,19 @@ impl<'a> Sis<'a> {
         let res_headers = &response.headers().clone();
 
         #[cfg(feature = "debug")]
-        debug!("Response Headers: {:?}", res_headers);
+        println!("Response Headers: {:?}", res_headers);
 
         let login_result = match response.json::<LoginResult>().await {
             Ok(result) => result,
             Err(err) => {
                 #[cfg(feature = "debug")]
-                debug!("[-] Error While Parse Login Result : {}", err);
+                println!("[-] Error While Parse Login Result : {}", err);
                 return Err(SisError::ParseLoginResultError);
             }
         };
 
-        #[cfg(feature = "debug")]
-        debug!("Login Result: {:?}", login_result);
+        #[cfg(feature = "println!()")]
+        println!("Login Result: {:?}", login_result);
 
         if login_result.rows[0].row.login_ok.as_str() == "True" {
             #[cfg(feature = "debug")] {
