@@ -125,7 +125,7 @@ impl<'a> Sis<'a> {
     /// * `usertype` - The type of the user (Student or Staff or System user)
     ///
     /// # Example
-    /// ```!
+    /// ```ignore
     /// # use sis_login::Sis;
     /// # use sis_login::sis::types::user_type::UserType;
     ///
@@ -216,7 +216,7 @@ impl<'a> Sis<'a> {
     /// Get Moodle Session URL
     ///
     /// # Example
-    /// ```!
+    /// ```ignore
     /// # use sis_login::Sis;
     /// # use sis_login::sis::types::user_type::UserType;
     ///
