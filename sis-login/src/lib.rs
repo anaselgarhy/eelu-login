@@ -231,22 +231,4 @@ impl<'a> Sis<'a> {
             }
         }
     }
-
-    /*    pub async fn moodle_login(
-        username: &String,
-        password: &String,
-        usertype: UserType,
-    ) -> Option<String> {
-        let cookie: Option<String> = sis_login(username, password, usertype).await;
-        if cookie.is_some() {
-            loop {
-                let moodle_session_url = get_moodle_session(cookie.clone().unwrap()).await;
-                if moodle_session_url.is_some() {
-                    return moodle_session_url;
-                }
-            }
-        } else {
-            None
-        }
-    }*/
 }
