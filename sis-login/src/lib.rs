@@ -44,7 +44,7 @@ impl<'a> Sis<'a> {
     /// * `headers_builder` - The headers builder to use (In most cases you can use the default one or you can create your own if you want more control)
     ///
     /// # Example
-    /// ```
+    /// ```!
     /// # use sis_login::Sis;
     /// # use sis_login::headers_builder::DefaultHeadersBuilder;
     /// # use sis_login::sis::types::user_type::UserType;
@@ -83,7 +83,7 @@ impl<'a> Sis<'a> {
     /// * `usertype` - The type of the user (Student or Staff or System user)
     ///
     /// # Example
-    /// ```
+    /// ```!
     /// # use sis_login::Sis;
     /// # use sis_login::sis::types::user_type::UserType;
     ///
@@ -174,7 +174,7 @@ impl<'a> Sis<'a> {
     /// Get Moodle Session URL
     ///
     /// # Example
-    /// ```
+    /// ```!
     /// # use sis_login::Sis;
     /// # use sis_login::sis::types::user_type::UserType;
     ///
