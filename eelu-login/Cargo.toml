@@ -14,3 +14,4 @@ readme = "../README.md"
 [dependencies]
 sis-login = { path = "../sis-login" }
 tokio = "1.27.0"
+open = "4.0.1"

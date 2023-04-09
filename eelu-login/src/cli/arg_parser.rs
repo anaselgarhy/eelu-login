@@ -7,6 +7,7 @@ pub struct Arguments {
     pub username: Option<String>,
     pub password: Option<String>,
     pub user_type: Option<UserType>,
+    pub open_browser: bool,
 }
 
 impl Arguments {
@@ -15,6 +16,7 @@ impl Arguments {
             username: None,
             password: None,
             user_type: None,
+            open_browser: false,
         }
     }
 
@@ -131,6 +133,7 @@ usertype can be :
                             parsed_arguments.user_type = Some(UserType::from_string(&user_type));
                         }
                     }
+                    "-o" | "-open" | "--open" => parsed_arguments.open_browser = true,
                     "-h" | "-help" | "--help" => {
                         Self::usage();
                         exit(0)
