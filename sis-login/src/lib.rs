@@ -1,3 +1,40 @@
+//! A library to login to the sis system and get the moodle session
+//!
+//! # Example
+//! ```ignore
+//! use sis_login::Sis;
+//! use sis_login::sis::types::user_type::UserType;
+//!
+//! #[tokio::main]
+//! async fn main() {
+//!    let username = std::env::var("SIS_USERNAME").unwrap();
+//!    let password = std::env::var("SIS_PASSWORD").unwrap();
+//!
+//!    // Crate Sis instance
+//!    let headers_builder = sis_login::headers_builder::DefaultHeadersBuilder::new(
+//!       "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0".to_string(),
+//!      "https://sis.eelu.edu.eg/static/PortalStudent.html".to_string()
+//!   );
+//!
+//!    let login_url: &str = "https://sis.eelu.edu.eg/studentLogin";
+//!    let get_moodle_session_url: &str = "https://sis.eelu.edu.eg/getJCI";
+//!    let mut sis = Sis::new(login_url, get_moodle_session_url, &headers_builder);
+//!
+//!   // Login to sis
+//!    match sis.login(&username, &password, UserType::Student).await {
+//!         Ok(_) => {
+//!             println!("Login Success");
+//!            // Get moodle session link
+//!           let Ok(moodle_session_link) = sis.get_moodle_session_link().await else { panic!("Failed to get moodle session link") };
+//!           println!("Moodle session link: {}", moodle_session_link);
+//!        },
+//!         Err(err) => println!("Login Failed: {}", err),
+//!     }
+//! }
+//!```
+//! # Features
+//! * `debug` - Enable debug logs, you still need to use a logger like env_logger and initialize it in your code
+
 pub mod headers_builder;
 pub mod sis;
 
@@ -8,11 +45,15 @@ use crate::sis::utils;
 use log::{debug, error, info};
 use std::future::{IntoFuture, Ready};
 
+/// The error type for the Sis struct
 pub enum SisError {
+    /// There was an error while sending the request to the server (It can be a network error or a server error)
     SendRequestError(reqwest::Error),
+    /// There was an error creating the client that will be used to send the requests
     CreateClientError(reqwest::Error),
     /// The provided username or password is incorrect
     AuthError,
+    /// There was an error while parsing the response from the server (Unexpected response)
     ParseLoginResultError,
 }
 
@@ -28,6 +69,7 @@ impl IntoFuture for SisError {
 /// A Result type alias for SisError
 pub type Result<T> = std::result::Result<T, SisError>;
 
+/// This struct is used to login to the sis system and get the moodle session.
 pub struct Sis<'a> {
     login_url: String,
     get_moodle_session_url: String,
@@ -44,7 +86,7 @@ impl<'a> Sis<'a> {
     /// * `headers_builder` - The headers builder to use (In most cases you can use the default one or you can create your own if you want more control)
     ///
     /// # Example
-    /// ```
+    /// ```!
     /// # use sis_login::Sis;
     /// # use sis_login::headers_builder::DefaultHeadersBuilder;
     /// # use sis_login::sis::types::user_type::UserType;
@@ -83,7 +125,7 @@ impl<'a> Sis<'a> {
     /// * `usertype` - The type of the user (Student or Staff or System user)
     ///
     /// # Example
-    /// ```
+    /// ```ignore
     /// # use sis_login::Sis;
     /// # use sis_login::sis::types::user_type::UserType;
     ///
@@ -174,7 +216,7 @@ impl<'a> Sis<'a> {
     /// Get Moodle Session URL
     ///
     /// # Example
-    /// ```
+    /// ```ignore
     /// # use sis_login::Sis;
     /// # use sis_login::sis::types::user_type::UserType;
     ///
@@ -231,22 +273,4 @@ impl<'a> Sis<'a> {
             }
         }
     }
-
-    /*    pub async fn moodle_login(
-        username: &String,
-        password: &String,
-        usertype: UserType,
-    ) -> Option<String> {
-        let cookie: Option<String> = sis_login(username, password, usertype).await;
-        if cookie.is_some() {
-            loop {
-                let moodle_session_url = get_moodle_session(cookie.clone().unwrap()).await;
-                if moodle_session_url.is_some() {
-                    return moodle_session_url;
-                }
-            }
-        } else {
-            None
-        }
-    }*/
 }

@@ -40,7 +40,7 @@ fn get_cookie(res_cookie_header: &str) -> &str {
     &res_cookie_header[..]
 }
 
-pub fn parse_cookies(headers: &HeaderMap) -> String {
+pub(crate) fn parse_cookies(headers: &HeaderMap) -> String {
     let mut cookie: String = String::new();
     for (_key, value) in headers.iter().enumerate() {
         if value.0.as_str() == "set-cookie" {

@@ -1,2 +1,2 @@
 pub mod types;
-pub mod utils;
+pub(crate) mod utils;
