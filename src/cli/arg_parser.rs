@@ -32,7 +32,7 @@ Args:
 
 [-user | --user | --username | -username |  -u]   <username>  :  username to login with 
 [-pass | --pass | --password | -p]   <password>  :  password to login with
-[-type | --type | --usertype | -usertype | -t]  : <usertype> 
+[-type | --type | --usertype | -usertype | -t]  : <usertype>
 
 usertype can be :
     [ staff | 3 ] for staff privilege
@@ -63,6 +63,10 @@ usertype can be :
                     }
                     "-o" | "-open" | "--open" => self.open_browser = true,
                     "-v" | "-verbose" | "--verbose" => self.verbose = true,
+                    "-V" | "-version" | "--version" => {
+                        println!("eelu-login v{}", env!("CARGO_PKG_VERSION"));
+                        exit(0)
+                    }
                     "-h" | "-help" | "--help" => {
                         Self::usage();
                         exit(0)
