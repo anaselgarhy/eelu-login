@@ -266,9 +266,9 @@ impl<'a> Sis<'a> {
 
         match response.json::<MoodleLoginResult>().await {
             Ok(result) => Ok(result.login_url),
-            Err(err) => {
+            Err(_err) => {
                 #[cfg(feature = "debug")]
-                error!("[-] Error While Parse Login Result : {}", err);
+                error!("[-] Error While Parse Login Result : {}", _err);
                 Err(SisError::ParseLoginResultError)
             }
         }
