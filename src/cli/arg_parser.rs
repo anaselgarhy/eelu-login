@@ -26,19 +26,23 @@ impl Arguments {
 
     #[inline(always)]
     fn usage() {
-        println!(
-            r#"[+] Usage : eelu-login [--user <username>] --pass <password> --type <staff| sys-user | student >
-Args: 
-
+        println!(r#"[+] Usage : eelu-login [--user <username>] [--pass <password>] [--type <staff| sys-user | student>]
+Args:
 [-user | --user | --username | -username |  -u]   <username>  :  username to login with 
 [-pass | --pass | --password | -p]   <password>  :  password to login with
 [-type | --type | --usertype | -usertype | -t]  : <usertype>
 
+
+Flags:
+[-o | --open | -open] : open browser after login
+[-v | --verbose | -verbose] : verbose mode
+[-V | --version | -version] : print version
+[-h | --help | -help] : print this help message
+
 usertype can be :
     [ staff | 3 ] for staff privilege
     [ sys-user | 1] for system user privilege
-    [ student | 2] for student privilege"#
-        );
+    [ student | 2] for student privilege"#);
     }
 
     #[inline(always)]
