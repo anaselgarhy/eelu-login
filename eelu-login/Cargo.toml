@@ -1,0 +1,28 @@
+[package]
+name = "eelu-login"
+version = "0.1.3"
+edition = "2021"
+authors = ["Eslam Muhammad <0xCrypt00o@protonmail.com>"]
+description = "EELU Moodle Login University moodle-login through sis system"
+repository = "https://github.com/anaselgarhy/eelu-login" # The latest updated repository, the original repository is not updated yet (https://github.com/Crypt00o/eelu-login)
+license = "MIT OR Apache-2.0"
+keywords = ["eelu", "EELU", "eelu-moodle", "moodle", "sis"]
+homepage = "https://github.com/anaselgarhy/eelu-login/README.md"
+readme = "../README.md"
+include = [
+    "src/**/*",
+    "Cargo.toml",
+    "README.md",
+    "LICENSE-MIT",
+    "LICENSE-APACHE",
+]
+exclude = [
+    "tests/**/*",
+    "examples/**/*",
+    "docs/**/*"
+]
+
+[dependencies]
+sis-login = "0.2.1"
+tokio = "1.27.0"
+open = "4.0.1"

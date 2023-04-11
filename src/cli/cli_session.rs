@@ -35,6 +35,11 @@ pub async fn login(sis: &mut sis_login::Sis<'_>) {
         match sis.get_moodle_session().await {
             Ok(url) => {
                 println!("[+] Moodle URL : {}", url);
+
+                // Open the Moodle URL in the default browser if the user wants to
+                if args.open_browser {
+                    if let Err(err) = open::that(url) { println!("[-] Failed To Open Browser: {err}"); };
+                }
                 Arguments::prompt_enter(
                     "\n\nPlease send blessings upon Prophet Muhammad Then Press Enter To Exit\n\n",
                 );

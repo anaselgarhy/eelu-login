@@ -7,6 +7,7 @@ pub struct Arguments {
     pub username: Option<String>,
     pub password: Option<String>,
     pub user_type: Option<UserType>,
+    pub open_browser: bool,
 }
 
 impl Arguments {
@@ -15,6 +16,7 @@ impl Arguments {
             username: None,
             password: None,
             user_type: None,
+            open_browser: false,
         }
     }
 
@@ -50,10 +52,20 @@ impl Arguments {
 
     pub fn read_needed_arguments(mut self) -> Self {
         if self.username.is_none() {
-            self.username = Some(Self::prompt("Username", true));
+            // Try to get username from env var
+            if let Ok(username) = std::env::var("EELU_SIS_USERNAME") {
+                self.username = Some(username);
+            } else {
+                self.username = Some(Self::prompt("Username", true));
+            }
         }
         if self.password.is_none() {
-            self.password = Some(Self::prompt("Password", true));
+            // Try to get password from env var
+            if let Ok(password) = std::env::var("EELU_SIS_PASSWORD") {
+                self.password = Some(password);
+            } else {
+                self.password = Some(Self::prompt("Password", true));
+            }
         }
         self
     }
@@ -131,6 +143,7 @@ usertype can be :
                             parsed_arguments.user_type = Some(UserType::from_string(&user_type));
                         }
                     }
+                    "-o" | "-open" | "--open" => parsed_arguments.open_browser = true,
                     "-h" | "-help" | "--help" => {
                         Self::usage();
                         exit(0)
