@@ -27,7 +27,6 @@ sis-login = "0.2.3"
 tokio = "1.27.0"
 open = "4.0.1"
 
-
 [workspace]
 members = [
     "sis-login"
