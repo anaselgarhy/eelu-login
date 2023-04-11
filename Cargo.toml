@@ -13,8 +13,8 @@ include = [
     "src/**/*",
     "Cargo.toml",
     "README.md",
-    "LICENSE-MIT",
-    "LICENSE-APACHE",
+    "LICENSE",
+    "LICENSE-apache",
 ]
 exclude = [
     "tests/**/*",
