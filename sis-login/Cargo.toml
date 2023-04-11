@@ -1,6 +1,6 @@
 [package]
 name = "sis-login"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 authors = ["Anas Elgarhy <anas.elgarhy.dev@gmail.com>", "Eslam Muhammad <0xCrypt00o@protonmail.com>"]
 description = "A simple crate to login to SIS system and get the moodle session link without the need to open the browser"
