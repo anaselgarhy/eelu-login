@@ -63,9 +63,6 @@
 //! - [sis-login crate](https://crates.io/crates/sis-login)
 //! - [EELU SIS](https://sis.eelu.edu.eg/)
 //! - [EELU Moodle](https://moodle.eelu.edu.eg/)
-//!
-//! ## License
-//! This package is licensed under the [MIT License](./LICENSE) Or [Apache License 2.0](./LICENSE-apache) (c) 2023 Eslam Muhammad [0xCrypt00o] and contributors.
 use sis_login::Sis;
 
 mod cli;
