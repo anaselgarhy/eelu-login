@@ -1,5 +1,3 @@
-//! # eelu-login
-//!
 //! eelu-login is a command-line tool that allows users to log in to the EELU Moodle platform quickly and easily through the command-line interface.
 //!
 //! ## Installation For Users
