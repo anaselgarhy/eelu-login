@@ -6,7 +6,6 @@ use cli::cli_session;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-
     // Parse Arguments
     let mut args = cli::arg_parser::Arguments::parse_args_and_env();
 

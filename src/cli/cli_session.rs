@@ -1,7 +1,6 @@
 use crate::cli::arg_parser::Arguments;
 use sis_login::sis::types::user_type::UserType;
-use std::io::{stdout, stdin, Write, stderr};
-
+use std::io::{stderr, stdin, stdout, Write};
 
 pub async fn login(sis: &mut sis_login::Sis<'_>, args: &mut Arguments) {
     let try_guess_user_type = args.user_type.is_none();
@@ -18,7 +17,9 @@ pub async fn login(sis: &mut sis_login::Sis<'_>, args: &mut Arguments) {
             if try_guess_user_type {
                 let user_type = UserType::from(user_type_num);
                 args.user_type = Some(user_type.clone());
-                if args.verbose { println!("[+] Trying login as {}", user_type.to_string()); }
+                if args.verbose {
+                    println!("[+] Trying login as {}", user_type.to_string());
+                }
             }
             // Try Login
             match sis
@@ -30,7 +31,9 @@ pub async fn login(sis: &mut sis_login::Sis<'_>, args: &mut Arguments) {
                 .await
             {
                 Ok(_) => {
-                    if args.verbose { println!("[+] Login Success :)"); }
+                    if args.verbose {
+                        println!("[+] Login Success :)");
+                    }
                     break;
                 }
                 _ => {
@@ -46,21 +49,27 @@ pub async fn login(sis: &mut sis_login::Sis<'_>, args: &mut Arguments) {
 
         match sis.get_moodle_session().await {
             Ok(url) => {
-                if args.verbose { println!("[+] Moodle URL : {}", url); } else if !args.open_browser { println!("{}", url); }
+                if args.verbose {
+                    println!("[+] Moodle URL : {}", url);
+                } else if !args.open_browser {
+                    println!("{}", url);
+                }
 
                 // Open the Moodle URL in the default browser if the user wants to
                 if args.open_browser {
-                    if let Err(err) = open::that(url) { println!("[-] Failed To Open Browser: {err}"); };
+                    if let Err(err) = open::that(url) {
+                        println!("[-] Failed To Open Browser: {err}");
+                    };
                 }
-                if args.verbose { prompt_enter("\n\nPlease send blessings upon Prophet Muhammad Then Press Enter To Exit\n\n"); }
+                if args.verbose {
+                    prompt_enter("\n\nPlease send blessings upon Prophet Muhammad Then Press Enter To Exit\n\n");
+                }
 
                 return;
             }
             _ => {
                 if prompt_y_n("[yes/no] => Do You Want to Attemp Login Again ?") {
-                    if prompt_y_n(
-                        "[yes/no] => Do You Want to Login Useing Same User And Pass ?",
-                    ) {
+                    if prompt_y_n("[yes/no] => Do You Want to Login Useing Same User And Pass ?") {
                         continue;
                     } else {
                         args.username = prompt("Username", true).into();
@@ -133,5 +142,6 @@ pub fn banner() {
     Github Repo : https://github.com/Crypt00o/eelu-login
     Mail : 0xCrypt00o@protonmail.com
     Support Me On :
-        Bitcoin Address : bc1qdp3f6u3puwkyu6ztxz7hzcurd7jnjyw6hzjcas"#);
+        Bitcoin Address : bc1qdp3f6u3puwkyu6ztxz7hzcurd7jnjyw6hzjcas"#
+    );
 }

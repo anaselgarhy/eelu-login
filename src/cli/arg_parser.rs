@@ -22,11 +22,10 @@ impl Arguments {
         }
     }
 
-
-
     #[inline(always)]
     fn usage() {
-        println!(r#"[+] Usage : eelu-login [--user <username>] [--pass <password>] [--type <staff| sys-user | student>]
+        println!(
+            r#"[+] Usage : eelu-login [--user <username>] [--pass <password>] [--type <staff| sys-user | student>]
 Args:
 [-user | --user | --username | -username |  -u]   <username>  :  username to login with 
 [-pass | --pass | --password | -p]   <password>  :  password to login with
@@ -42,7 +41,8 @@ Flags:
 usertype can be :
     [ staff | 3 ] for staff privilege
     [ sys-user | 1] for system user privilege
-    [ student | 2] for student privilege"#);
+    [ student | 2] for student privilege"#
+        );
     }
 
     #[inline(always)]
@@ -87,15 +87,15 @@ usertype can be :
     pub fn parse_args_and_env() -> Self {
         let mut parsed_arguments: Self = Self::new();
 
-            // Try to get username from env var
-            if let Ok(username) = std::env::var("EELU_SIS_USERNAME") {
-                parsed_arguments.username = Some(username);
-            }
+        // Try to get username from env var
+        if let Ok(username) = std::env::var("EELU_SIS_USERNAME") {
+            parsed_arguments.username = Some(username);
+        }
 
-            // Try to get password from env var
-            if let Ok(password) = std::env::var("EELU_SIS_PASSWORD") {
-                parsed_arguments.password = Some(password);
-            }
+        // Try to get password from env var
+        if let Ok(password) = std::env::var("EELU_SIS_PASSWORD") {
+            parsed_arguments.password = Some(password);
+        }
 
         parsed_arguments.parse_args();
         parsed_arguments
